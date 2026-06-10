@@ -16,7 +16,6 @@ agents suggest commands or configurations.
 - **environments.md** — shell, terminal, multiplexer, and workflow environment
 - **hardware.md** — workstation specs, GPU, compute resources
 - **knowledge-base.md** — PARA-style knowledge-base layout and organizational rules
-- **tmux-logging-setup.md** — terminal session logging and cleanup
 
 Add your own as your stack grows — local model servers, RAG services, devices,
 data pipelines. Each file describes one domain; list it here so agents can find it.
