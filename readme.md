@@ -54,6 +54,10 @@ The keystone is [`4-workflows/agents-init.md`](4-workflows/agents-init.md): the 
 
 Adopting lib-me with a runtime that doesn't ship support for it? See [`contributing.md`](contributing.md).
 
+## Tips & tricks
+
+Optional ways to make lib-me fit you better — automating agent resync, naming your instance, and where to spend your effort. See [`tips.md`](tips.md).
+
 ## Design principles
 
 - **Plain Markdown, no lock-in.** If it can read files, it can use lib-me.

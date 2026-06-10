@@ -1,25 +1,24 @@
----
-category: workflow
-tags: [sync, resync, git, agents, automation, version-control]
-last_updated: 2026-06-09
-agent_action: "Read when setting up automated resync of an agent's derived skills after lib-me changes. Concept + a prompt; the full contract is in agents-init.md."
+# Tips & Tricks
+
+Optional ways to make lib-me fit you better. None are required — lib-me works out of
+the box. Pick what helps.
+
 ---
 
-# Keeping agents in sync with lib-me
+## Keep your agents in sync automatically
 
 When you edit lib-me, one of two things is true:
 
 - **Pointer changes** — you edited `1-core/`, `2-stack/`, `3-taste/`, or `readme.md`.
   Agents read these live, so there's nothing to sync; the next session sees the change.
 - **Derived artifacts** — skills or instruction files an agent *generated* from the
-  specs in `4-workflows/`. These are real copies in the runtime's native format. They
-  drift when the source changes and have to be regenerated.
+  specs in `4-workflows/`. These are real copies in the runtime's native format and
+  drift when the source changes, so they have to be regenerated.
 
-This tip is about the second case: regenerating an agent's derived skills automatically
-when the lib-me source behind them changes — anchored on git commits, no bespoke
-tooling required.
+This is about the second case: regenerating an agent's derived skills automatically when
+the lib-me source behind them changes — anchored on git commits, no bespoke tooling.
 
-## The idea: git commits as the version anchor
+### The idea: git commits as the version anchor
 
 lib-me lives in git, so "the version an agent last saw" is just a commit hash. That's
 the whole trick:
@@ -34,35 +33,27 @@ the whole trick:
 4. **Regenerate only what changed.** Map each changed source to the agent's derived
    artifacts and rebuild those in the runtime's native format. Lint the result.
 5. **Promote or roll back.** On a clean lint, replace the old artifacts and advance the
-   stored commit. On failure, keep the old version and leave the state file untouched so
-   the next run retries.
+   stored commit. On failure, keep the old version and leave the state file untouched.
 6. **Never write back to lib-me.** Sync only *reads* the source; it *writes* only the
    agent's own skills and its state file.
 
 The full contract — reading order, the skill-to-source map, and edge cases (a squash or
-rebase making the old hash unreachable falls back to full regeneration) — is specified
-in [`agents-init.md`](agents-init.md). This doc is just the practical shape of it.
+rebase making the old hash unreachable falls back to full regeneration) — lives in
+[`4-workflows/agents-init.md`](4-workflows/agents-init.md).
 
-## Triggering it
+### Triggering it
 
 The mechanism is pure git, so it runs anywhere git runs. *When* it runs is your choice:
+on demand (a command you invoke after editing lib-me), or scheduled (cron, a systemd
+timer, Task Scheduler, a CI job, an overnight run — whatever your environment has).
 
-- **On demand** — a command you invoke after editing lib-me.
-- **Scheduled** — cron, a systemd timer, Task Scheduler, a CI job, an overnight run.
-  Use whatever your environment already has.
+### Let your agent build it
 
-## Why no script ships here
-
-The detection logic is a handful of git commands; the regeneration is entirely
-runtime-specific — every agent has its own skill format and its own config location. A
-single shipped script would be either too generic to use or too coupled to one runtime
-to share. So instead of code, hand the job to the agent itself: it already knows its own
-format. Use the prompt below.
-
-## Prompt: have your agent build its own resync
-
-Copy this to the agent whose skills you want kept in sync. Fill in the two bracketed
-values.
+The detection logic is a handful of git commands, but the regeneration is entirely
+runtime-specific — every agent has its own skill format and config location. So rather
+than ship a script that's too generic to use or too coupled to one runtime to share,
+hand the job to the agent itself. Copy this prompt to the agent you want kept in sync,
+filling in the two bracketed values:
 
 ```text
 Read `[path-to-lib-me]/4-workflows/agents-init.md` — it specifies how this system
@@ -91,6 +82,30 @@ Keep it minimal and deterministic. Show me what you create and where you put it 
 wiring up any scheduler.
 ```
 
-The agent reads the contract, builds the part that's specific to it, and you keep your
-own trigger. That keeps the shareable thing — the git-anchored mechanism — public, and
-leaves the bespoke scheduling where it belongs: with you.
+---
+
+## Give your instance a name
+
+lib-me ships generic. Give your copy an identity — agents read better when they refer to
+*your* manual by name instead of "the template." Pick a name, then use it in the readme
+intro and in the one-line pointer in each agent's root file ("Read `<name>/readme.md`
+first"). It's cosmetic, but it makes the system feel like yours.
+
+---
+
+## Invest in your voice guide last, not first
+
+`3-taste/writing-style.md` is the highest-leverage taste file — but it's only as good as
+the examples behind it. Populate `3-taste/corpus/` with real samples of your writing
+*first*, then spend your best model's tokens distilling `writing-style.md` from them.
+Distilling a voice from a full corpus is worth a premium model; writing corpus stubs
+isn't.
+
+---
+
+## Rename directories to fit how you think
+
+The directory names are yours. If `3-taste/` doesn't match how you think about it,
+rename it — `style/`, `voice/`, whatever fits. lib-me doesn't depend on the names, only
+on the pointers staying consistent: update the readme map, the reading order in
+`agents-init.md`, and any frontmatter that references the old path.
