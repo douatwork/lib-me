@@ -15,7 +15,7 @@ These files are the "who" and "why." The other directories (stack, taste, workfl
 
 ## Reading Order
 
-1. `readme.md` — you are here
+1. `README.md` — you are here
 2. `profile.md` — who the user is (optional)
 3. `beliefs.md` — what the user believes
 4. `heuristics.md` — how the user thinks
