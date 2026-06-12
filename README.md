@@ -33,7 +33,7 @@ lib-me is four layers of scaffolding to sort who you are and how you work:
 | **`taste/`** | Writing voice, code style, naming, sample corpus | *How should the output look and sound when it's done?* |
 | **`workflows/`** | Agent bootstrap, project setup, work management | *What's the process for the task in front of me?* |
 
-`core/` and `taste/` are the **"who" and "why."** `stack/` and `workflows/` are the **"what" and "how."** Each directory has its own `readme.md` mapping its contents — start there and expand only as the task calls for it.
+`core/` and `taste/` are the **"who" and "why."** `stack/` and `workflows/` are the **"what" and "how."** Each directory has its own `README.md` mapping its contents — start there and expand only as the task calls for it.
 
 The keystone is [`workflows/agents-init.md`](workflows/agents-init.md): the bootstrap spec any runtime follows to find lib-me, navigate it, and keep its derived skills in sync.
 
