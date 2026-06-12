@@ -9,10 +9,10 @@ the box. Pick what helps.
 
 When you edit lib-me, one of two things is true:
 
-- **Pointer changes** — you edited `1-core/`, `2-stack/`, `3-taste/`, or `readme.md`.
+- **Pointer changes** — you edited `core/`, `stack/`, `taste/`, or `readme.md`.
   Agents read these live, so there's nothing to sync; the next session sees the change.
 - **Derived artifacts** — skills or instruction files an agent *generated* from the
-  specs in `4-workflows/`. These are real copies in the runtime's native format and
+  specs in `workflows/`. These are real copies in the runtime's native format and
   drift when the source changes, so they have to be regenerated.
 
 This is about the second case: regenerating an agent's derived skills automatically when
@@ -39,7 +39,7 @@ the whole trick:
 
 The full contract — reading order, the skill-to-source map, and edge cases (a squash or
 rebase making the old hash unreachable falls back to full regeneration) — lives in
-[`4-workflows/agents-init.md`](4-workflows/agents-init.md).
+[`workflows/agents-init.md`](workflows/agents-init.md).
 
 ### Triggering it
 
@@ -56,7 +56,7 @@ hand the job to the agent itself. Copy this prompt to the agent you want kept in
 filling in the two bracketed values:
 
 ```text
-Read `[path-to-lib-me]/4-workflows/agents-init.md` — it specifies how this system
+Read `[path-to-lib-me]/workflows/agents-init.md` — it specifies how this system
 versions and syncs derived artifacts. Then set up an automated resync for yourself,
 in your own runtime, following that spec:
 
@@ -95,8 +95,8 @@ first"). It's cosmetic, but it makes the system feel like yours.
 
 ## Invest in your voice guide last, not first
 
-`3-taste/writing-style.md` is the highest-leverage taste file — but it's only as good as
-the examples behind it. Populate `3-taste/corpus/` with real samples of your writing
+`taste/writing-style.md` is the highest-leverage taste file — but it's only as good as
+the examples behind it. Populate `taste/corpus/` with real samples of your writing
 *first*, then spend your best model's tokens distilling `writing-style.md` from them.
 Distilling a voice from a full corpus is worth a premium model; writing corpus stubs
 isn't.
@@ -105,7 +105,7 @@ isn't.
 
 ## Rename directories to fit how you think
 
-The directory names are yours. If `3-taste/` doesn't match how you think about it,
+The directory names are yours. If `taste/` doesn't match how you think about it,
 rename it — `style/`, `voice/`, whatever fits. lib-me doesn't depend on the names, only
 on the pointers staying consistent: update the readme map, the reading order in
 `agents-init.md`, and any frontmatter that references the old path.
